@@ -1,0 +1,15 @@
+###> symfony/framework-bundle ###
+/.env
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+/.idea
+/docker/database/
+!/docker/database/.gitkeep
+/docker/rabbitmq/data/
+!/docker/rabbitmq/data/.gitkeep
+/docker/rabbitmq/log/
+!/docker/rabbitmq/log/.gitkeep
