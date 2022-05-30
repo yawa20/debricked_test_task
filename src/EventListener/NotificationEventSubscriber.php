@@ -14,7 +14,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 
-class NotificationEvenSubscriber implements EventSubscriberInterface
+class NotificationEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(private NotifierInterface $notifier)
     {}
