@@ -8,8 +8,9 @@
 
 /.idea
 /docker/database/
-!/docker/database/.gitkeep
 /docker/rabbitmq/data/
 !/docker/rabbitmq/data/.gitkeep
 /docker/rabbitmq/log/
 !/docker/rabbitmq/log/.gitkeep
+/uploads
+!/uploads/.gitkeep

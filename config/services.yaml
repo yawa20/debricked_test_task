@@ -10,7 +10,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            string $uploadDir: 'uploads/'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -19,6 +20,38 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/RequestDTO/'
+
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: [ 'controller.service_arguments' ]
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\RequestResolver\RequestArgumentResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    App\RequestResolver\JsonRequestTransformerListener:
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.request",method: "onKernelRequest", priority: "100" }
+
+    App\RequestResolver\RequestDTOValidatorListener:
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.controller_arguments",method: "onKernelControllerArguments", priority: "100" }
+
+    App\RequestResolver\ValidationExceptionListener:
+        tags:
+            - { name: "kernel.event_listener", event: "kernel.exception",method: "onKernelException", priority: "100" }
+
+    App\DebrickedApi\Client\ApiClientInterface:
+        class: App\DebrickedApi\Client\ApiClient
+        arguments:
+            $token: '%env(DEBRICKED_API_TOKEN)%'
+
+    App\DebrickedApi\DebrickedApiInterface:
+        class: App\DebrickedApi\DebrickedApi
+
+    App\Debricked\DebrickedProcessorInterface:
+        class: App\Debricked\DebrickedProcessor

@@ -14,14 +14,19 @@ services:
     image: memcached
 
   database:
-    image: 'mysql:8.0'
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
     volumes:
-      - ./docker/database:/var/lib/mysql
+      - ./docker/database:/var/lib/postgresql/data:rw
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      POSTGRES_DB: ${POSTGRES_DB:-debricked}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-debricked}
     ports:
       - "5432:5432"
+
+  mailer:
+    image: schickling/mailcatcher
+    ports: [1025, 1080]
 
   rabbit:
     image: 'rabbitmq:3.9.13-management-alpine'
@@ -46,12 +51,15 @@ services:
       - memcached
       - database
       - rabbit
+      - mailer
     environment:
       MESSENGER_TRANSPORT_DSN: ${MESSENGER_TRANSPORT_DSN}
       SLACK_DSN: ${SLACK_DSN}
       MEMCACHED_HOST: memcached
-      DATABASE_URL: "mysql://root:${MYSQL_ROOT_PASSWORD}@database:5432/${MYSQL_DATABASE}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-debricked}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-debricked}?serverVersion=${POSTGRES_VERSION:-13}&charset=utf8"
       APP_ENV: ${APP_ENV}
       APP_SECRET: ${APP_SECRET}
       XDEBUG_CONFIG: ${XDEBUG_CONFIG}
-
+      DEBRICKED_API_TOKEN: ${DEBRICKED_API_TOKEN}
+      MAILER_DSN: ${MAILER_DSN}
+      MAILER_SENDER: ${MAILER_SENDER}
