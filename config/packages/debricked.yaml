@@ -1,0 +1,2 @@
+debricked:
+  long_file_token: '%env(DEBRICKED_API_TOKEN)%'

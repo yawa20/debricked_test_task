@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+
+  DebrickedBundle\Debricked\Api\Client\ApiClientInterface:
+    class: DebrickedBundle\Debricked\Api\Client\ApiClient
+
+  DebrickedBundle\Debricked\Api\DebrickedApiInterface:
+    class: DebrickedBundle\Debricked\Api\DebrickedApi
+
+  DebrickedBundle\Debricked\DebrickedProcessorInterface:
+    class: DebrickedBundle\Debricked\DebrickedProcessor
+
+  DebrickedBundle\Debricked\Api\Client\TokenStorage:

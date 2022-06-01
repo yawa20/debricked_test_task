@@ -1,0 +1,19 @@
+services:
+  _defaults:
+    autowire: true
+
+  RequestResolverBundle\RequestResolver\RequestArgumentResolver:
+    tags:
+      - { name: controller.argument_value_resolver, priority: 50 }
+
+  RequestResolverBundle\RequestResolver\JsonRequestTransformerListener:
+    tags:
+      - { name: "kernel.event_listener", event: "kernel.request",method: "onKernelRequest", priority: "100" }
+
+  RequestResolverBundle\RequestResolver\RequestDTOValidatorListener:
+    tags:
+      - { name: "kernel.event_listener", event: "kernel.controller_arguments",method: "onKernelControllerArguments", priority: "100" }
+
+  RequestResolverBundle\RequestResolver\ValidationExceptionListener:
+    tags:
+      - { name: "kernel.event_listener", event: "kernel.exception",method: "onKernelException", priority: "100" }

@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DebrickedBundle\Debricked\Events;
+
+use DebrickedBundle\Debricked\SourceInterface;
+use Symfony\Contracts\EventDispatcher\Event;
+
+class QueueSuccessEvent extends Event
+{
+    /**
+     * @param SourceInterface $source
+     */
+    public function __construct(public readonly SourceInterface $source)
+    {
+    }
+}

@@ -5,12 +5,11 @@ framework:
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async:
+            amqp:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
             # failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
-
+            'App\Messages\UploadProcessMessage': amqp
+            'App\Messages\ProcessFinishedMessage': amqp

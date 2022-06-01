@@ -7,10 +7,10 @@ framework:
     notifier:
         channel_policy:
             # use chat/slack, chat/telegram, sms/twilio or sms/nexmo
-            urgent: ['email']
-            high: ['email']
-            medium: ['email']
-            low: ['email']
+            urgent: ['email', 'chat/slack']
+            high: ['email', 'chat/slack']
+            medium: ['email', 'chat/slack']
+            low: ['email', 'chat/slack']
         admin_recipients:
             - { email: '%env(RECIPIENT_EMAIL)%' }
         chatter_transports:
